@@ -13,6 +13,7 @@ interface SnapScrollContainerProps {
     subtitle?: string;
   }[];
   onSectionChange?: (index: number) => void;
+  hideText?: boolean;
 }
 
 // Styled components

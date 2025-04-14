@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Header from '@/components/layout/Header';
+import Sidebar from '@/components/layout/Sidebar';
 import Footer from '@/components/layout/Footer';
 import ServicesSection from '@/components/services/ServicesSection';
 import Link from 'next/link';
@@ -13,6 +14,7 @@ import { IntersectionDebugger } from '@/components/debug';
 import { isDebugModeEnabled, getDebugToggleUrl, debugLog, debugFeatures } from '@/utils/debugUtils';
 import { VIDEO_CONSTANTS } from '@/components/video/LazyVideoSection';
 import { videoSections } from '@/config/videoSections';
+import SnapScrollVideoSection from '@/components/video/SnapScrollVideoSection';
 
 const Main = styled.main`
   width: 100%;
@@ -178,6 +180,13 @@ const ScrollIndicator = styled.div`
   }
 `;
 
+const PageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #000;
+`;
+
 export default function Home() {
   const mainRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
@@ -188,6 +197,8 @@ export default function Home() {
   const [sectionVisibility, setSectionVisibility] = useState<number[]>(new Array(videoSections.length).fill(0));
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const [debugMode, setDebugMode] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   useEffect(() => {
     debugLog('Home component mounted, video sections:', videoSections);
@@ -221,8 +232,8 @@ export default function Home() {
     };
     
     const checkDevice = () => {
-      setIsMobile(window.innerWidth <= VIDEO_CONSTANTS.MOBILE_BREAKPOINT);
-      setIsTablet(window.innerWidth > VIDEO_CONSTANTS.MOBILE_BREAKPOINT && window.innerWidth <= VIDEO_CONSTANTS.TABLET_BREAKPOINT);
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth <= 1024 && window.innerWidth > 768);
     };
     
     // Check for debug mode
@@ -303,36 +314,40 @@ export default function Home() {
     }
   };
 
+  const handleModalStateChange = (modalOpen: boolean) => {
+    setIsModalOpen(modalOpen);
+  };
+
   return (
-    <>
-      <Header />
-      <Main ref={mainRef} style={{ position: 'relative' }}>
-        {/* Development links - only visible in debug mode */}
-        {debugMode && (
-          <DevLinks>
-            <DevLink href="/scroll-test">
-              View Scroll Video Hook Test Page
-            </DevLink>
-            <DevLink href="/video-player-test">
-              View Video Player Test Page
-            </DevLink>
-            <DevLink href="/scroll-video-sections">
-              View Scroll Video Sections Test Page
-            </DevLink>
-            <DevLink href="/snap-scroll-example">
-              View Snap Scroll Example Page
-            </DevLink>
-            <DevLink href={getDebugToggleUrl(debugMode)}>
-              {debugMode ? 'Disable Debug Mode' : 'Enable Debug Mode'}
-            </DevLink>
-            <DevLink href={`/?debug=true&debugFeatures=${debugFeatures.INTERSECTION_OBSERVER}`}>
-              Enhanced Intersection Debug
-            </DevLink>
-          </DevLinks>
-        )}
-        
-        {/* Snap Scroll Video Sections */}
-        <PageContainer>
+    <PageWrapper>
+      <Sidebar isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <Main>
+        <Header />
+        <PageContainer ref={mainRef}>
+          {/* Development links - only visible in debug mode */}
+          {debugMode && (
+            <DevLinks>
+              <DevLink href="/scroll-test">
+                View Scroll Video Hook Test Page
+              </DevLink>
+              <DevLink href="/video-player-test">
+                View Video Player Test Page
+              </DevLink>
+              <DevLink href="/scroll-video-sections">
+                View Scroll Video Sections Test Page
+              </DevLink>
+              <DevLink href="/snap-scroll-example">
+                View Snap Scroll Example Page
+              </DevLink>
+              <DevLink href={getDebugToggleUrl(debugMode)}>
+                {debugMode ? 'Disable Debug Mode' : 'Enable Debug Mode'}
+              </DevLink>
+              <DevLink href={`/?debug=true&debugFeatures=${debugFeatures.INTERSECTION_OBSERVER}`}>
+                Enhanced Intersection Debug
+              </DevLink>
+            </DevLinks>
+          )}
+          
           {/* Current section title - only shown in debug mode */}
           {debugMode && (
             <CurrentSectionHeading>
@@ -341,7 +356,7 @@ export default function Home() {
           )}
           
           {/* Scroll indicator (only shown at beginning and end) */}
-          {showScrollIndicator && (
+          {showScrollIndicator && !isModalOpen && (
             <ScrollIndicator onClick={handleHeroScroll}>
               {activeIndex === videoSections.length - 1 ? 'Scroll to content' : 'Scroll to explore'}
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -351,23 +366,13 @@ export default function Home() {
             </ScrollIndicator>
           )}
           
-          <SnapScrollContainer
-            sections={videoSections.map(section => ({
-              id: section.id,
-              title: section.title,
-              subtitle: section.subtitle
-            }))}
+          <SnapScrollVideoSection
+            sections={videoSections}
+            activeIndex={activeIndex}
             onSectionChange={handleSectionChange}
-          >
-            {videoSections.map((section, index) => (
-              <LazyVideoSection
-                key={section.id}
-                sections={[section]}
-                activeIndex={0}
-                preloadNext={index < videoSections.length - 1}
-              />
-            ))}
-          </SnapScrollContainer>
+            hideText={isModalOpen}
+            isInView={true}
+          />
           
           {/* Debug visualization for development - only shown in debug mode */}
           {debugMode && (
@@ -378,10 +383,8 @@ export default function Home() {
             />
           )}
         </PageContainer>
-        
-        {/* Content sections could be added here */}
+        <Footer />
       </Main>
-      <Footer />
-    </>
+    </PageWrapper>
   );
 }
