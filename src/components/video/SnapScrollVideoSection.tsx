@@ -26,14 +26,18 @@ export interface VideoSection {
   backgroundColor?: string;
   textAnimation?: 'typewriter' | 'scramble' | 'split' | 'fade' | 'none';
   textAnimationOptions?: Record<string, any>;
+  hideText?: boolean;
 }
 
 interface SnapScrollVideoSectionProps {
   sections: VideoSection[];
   activeIndex: number;
   preloadNext?: boolean;
-  isInView?: boolean; // Optional prop to control if section is in view
-  autoplayDelay?: number; // Delay in ms before autoplay starts when section comes into view
+  isInView?: boolean;
+  autoplayDelay?: number;
+  hideText?: boolean;
+  isModalOpen?: boolean;
+  onSectionChange?: (index: number) => void;
 }
 
 // Styled components
@@ -234,7 +238,10 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
   activeIndex,
   preloadNext = true,
   isInView = true,
-  autoplayDelay = 2000 // User changed default
+  autoplayDelay = 2000,
+  hideText = false,
+  isModalOpen = false,
+  onSectionChange
 }) => {
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false); // Start paused
@@ -553,6 +560,13 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
     }
   };
 
+  // Effect untuk memberitahu parent component ketika section berubah
+  useEffect(() => {
+    if (onSectionChange) {
+      onSectionChange(activeIndex);
+    }
+  }, [activeIndex, onSectionChange]);
+
   return (
     <AnimatePresence mode="wait">
       <SectionContainer
@@ -619,27 +633,41 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
               </ControlButton>
             </ControlsContainer>
 
-            <ContentOverlay
-              position={currentSection.textPosition}
-              textColor={currentSection.textColor}
-            >
-              {/* Using refs instead of framer-motion variants for GSAP animations */}
-              <Title 
-                ref={titleRef} 
-                variants={itemVariants}
-              >
-                {/* Text content will be set by the GSAP animations */}
-              </Title>
-
-              {currentSection.subtitle && (
-                <Subtitle 
-                  ref={subtitleRef}
-                  variants={itemVariants}
+            <AnimatePresence mode="wait">
+              {!hideText && (
+                <ContentOverlay
+                  key="content-overlay"
+                  position={currentSection.textPosition}
+                  textColor={currentSection.textColor}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  {/* Text content will be set by the GSAP animations */}
-                </Subtitle>
+                  <Title 
+                    ref={titleRef}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                  >
+                    {currentSection.title}
+                  </Title>
+
+                  {currentSection.subtitle && (
+                    <Subtitle 
+                      ref={subtitleRef}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3, delay: 0.2 }}
+                    >
+                      {currentSection.subtitle}
+                    </Subtitle>
+                  )}
+                </ContentOverlay>
               )}
-            </ContentOverlay>
+            </AnimatePresence>
           </>
         )}
       </SectionContainer>
