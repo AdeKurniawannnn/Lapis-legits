@@ -231,12 +231,12 @@ export default function Header() {
             <NavItem>
               <Link href="/our-work">Our Work</Link>
             </NavItem>
-            <NavItem>
+            {/* <NavItem>
               <Link href="/#services">Services</Link>
             </NavItem>
             <NavItem>
               <Link href="/#about">About</Link>
-            </NavItem>
+            </NavItem> */}
             <NavItem>
               <Link href="/#contact">Contact</Link>
             </NavItem>
