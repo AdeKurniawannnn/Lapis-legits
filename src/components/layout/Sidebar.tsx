@@ -4,11 +4,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const VerticalText = styled.div<{ $right?: boolean }>`
+const VerticalText = styled.div<{ $right?: boolean; $center?: boolean; $offset?: number }>`
   position: fixed;
-  top: 50%;
-  ${props => props.$right ? 'right: -5px;' : 'left: auto;'}
-  transform: translateY(-50%) rotate(${props => props.$right ? '-90deg' : '90deg'});
+  top: ${props => props.$offset ? `${50 + props.$offset}%` : '50%'};
+  right: 40px;
+  transform-origin: right center;
+  transform: ${props => {
+    if (props.$center) return 'translate(-50%, -50%) rotate(90deg)';
+    return 'translateY(-50%) rotate(-90deg)';
+  }};
   font-size: 14px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -22,7 +26,15 @@ const VerticalText = styled.div<{ $right?: boolean }>`
   transition: opacity 0.3s ease;
   
   @media (max-width: 768px) {
-    display: none;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    right: 30px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 10px;
+    letter-spacing: 1px;
+    right: 25px;
   }
 
   &:hover {
@@ -237,7 +249,7 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
     } else {
       setModalContent({
         title: 'Our Values',
-        text: 'What sets Lapis Visuals apart is our core belief that storytelling should always lead the creative process. While we value striking visuals, every frame is crafted to serve the narrative. For us, aesthetics are powerful tools to elevate the emotion, meaning, and message behind each story. At Lapis Visuals, we don’t just produce content—we tell stories that connect, inspire, and endure.',
+        text: 'What sets Lapis Visuals apart is our core belief that storytelling should always lead the creative process. While we value striking visuals, every frame is crafted to serve the narrative. For us, aesthetics are powerful tools to elevate the emotion, meaning, and message behind each story. At Lapis Visuals, we do not just produce content - we tell stories that connect, inspire, and endure.',
         address: 'Jl. Digital Creative No.123\nJakarta Selatan, Indonesia 12345\ninfo@lapisstudio.com\n+62 21 1234 5678'
       });
     }
@@ -253,10 +265,10 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
 
   return (
     <>
-      <VerticalText onClick={() => handleModalOpen(false)}>
+      <VerticalText $right $offset={-15} onClick={() => handleModalOpen(false)}>
         Our Values
       </VerticalText>
-      <VerticalText $right onClick={() => handleModalOpen(true)}>
+      <VerticalText $right $offset={15} onClick={() => handleModalOpen(true)}>
         About Us
       </VerticalText>
 

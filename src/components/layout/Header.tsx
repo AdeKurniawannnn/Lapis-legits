@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, Download } from 'lucide-react';
 
 const HeaderContainer = styled.header<{ $scrolled: boolean }>`
   position: fixed;
@@ -50,29 +51,31 @@ const NavList = styled.ul`
   display: flex;
   list-style: none;
   gap: var(--spacing-lg);
+  align-items: center;
 `;
 
 const NavItem = styled.li`
-  font-size: var(--font-size-base);
-  font-weight: 500;
-  
-  a {
-    position: relative;
-    
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: var(--color-accent);
-      transition: width var(--transition-fast);
-    }
-    
-    &:hover:after {
-      width: 100%;
-    }
+  display: flex;
+  align-items: center;
+`;
+
+const IconButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--color-text-light);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--color-text-light);
+  padding: 8px;
+  transition: all 0.3s ease;
+  width: 36px;
+  height: 36px;
+
+  &:hover {
+    background: var(--color-text-light);
+    color: var(--color-background);
   }
 `;
 
@@ -190,6 +193,12 @@ export default function Header() {
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.location.href = href;
+  };
   
   const menuVariants = {
     closed: {
@@ -219,26 +228,47 @@ export default function Header() {
     open: { opacity: 1, y: 0 }
   };
   
+  const handleScrollDown = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    });
+  };
+
+  const handleDownload = () => {
+    // Ganti dengan URL file yang ingin didownload
+    const fileUrl = '/files/company-profile.pdf';
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = 'LAPIS-Company-Profile.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <HeaderContainer $scrolled={scrolled || isMenuOpen}>
       <HeaderContent>
         <Logo>
-          <Link href="/">LAPIS</Link>
+          <Link href="/" onClick={(e) => handleNavigation(e, '/')}>LAPIS</Link>
         </Logo>
         
         <Nav>
           <NavList>
             <NavItem>
-              <Link href="/our-work">Our Work</Link>
-            </NavItem>
-            {/* <NavItem>
-              <Link href="/#services">Services</Link>
+              <Link href="/our-work" onClick={(e) => handleNavigation(e, '/our-work')}>
+                Our Work
+              </Link>
             </NavItem>
             <NavItem>
-              <Link href="/#about">About</Link>
-            </NavItem> */}
+              <Link href="/#contact" onClick={(e) => handleNavigation(e, '/#contact')}>
+                Contact
+              </Link>
+            </NavItem>
             <NavItem>
-              <Link href="/#contact">Contact</Link>
+              <IconButton onClick={handleDownload} title="Download Company Profile">
+                <Download size={18} />
+              </IconButton>
             </NavItem>
           </NavList>
         </Nav>
@@ -262,22 +292,12 @@ export default function Header() {
           >
             <MobileNavList>
               <MobileNavItem variants={itemVariants}>
-                <Link href="/our-work" onClick={closeMenu}>
+                <Link href="/our-work" onClick={(e) => { handleNavigation(e, '/our-work'); closeMenu(); }}>
                   Our Work
                 </Link>
               </MobileNavItem>
               <MobileNavItem variants={itemVariants}>
-                <Link href="/#services" onClick={closeMenu}>
-                  Services
-                </Link>
-              </MobileNavItem>
-              <MobileNavItem variants={itemVariants}>
-                <Link href="/#about" onClick={closeMenu}>
-                  About
-                </Link>
-              </MobileNavItem>
-              <MobileNavItem variants={itemVariants}>
-                <Link href="/#contact" onClick={closeMenu}>
+                <Link href="/#contact" onClick={(e) => { handleNavigation(e, '/#contact'); closeMenu(); }}>
                   Contact
                 </Link>
               </MobileNavItem>
