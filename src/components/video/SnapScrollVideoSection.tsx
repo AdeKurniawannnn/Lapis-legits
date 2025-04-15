@@ -132,24 +132,27 @@ const BackgroundColor = styled(motion.div)<{ bgColor?: string }>`
 `;
 
 const Title = styled(motion.h2)`
-  font-size: 3.5rem;
-  font-weight: bold;
+  font-size: 4.5rem;
+  font-weight: 300;
   margin-bottom: 1rem;
   line-height: 1.2;
+  letter-spacing: -1px;
   
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 `;
 
 const Subtitle = styled(motion.p)`
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   line-height: 1.5;
   margin-top: 1rem;
-  max-width: 600px;
+  max-width: 800px;
+  font-weight: 300;
+  opacity: 0.8;
   
   @media (max-width: 768px) {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 `;
 
@@ -245,6 +248,7 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
 }) => {
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false); // Start paused
+  const [showText, setShowText] = useState(true);
   const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
   const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
   const hasPlayedOnceRef = useRef<Record<string, boolean>>({}); // Track if section played since last view
@@ -567,6 +571,26 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
     }
   }, [activeIndex, onSectionChange]);
 
+  useEffect(() => {
+    let fadeOutTimer: NodeJS.Timeout;
+    
+    if (currentSection?.id === 'intro') {
+      // Reset showText when component mounts or section changes to intro
+      setShowText(true);
+      
+      // Set timer for fade out
+      fadeOutTimer = setTimeout(() => {
+        setShowText(false);
+      }, 30000);
+    }
+
+    return () => {
+      if (fadeOutTimer) {
+        clearTimeout(fadeOutTimer);
+      }
+    };
+  }, [currentSection]);
+
   return (
     <AnimatePresence mode="wait">
       <SectionContainer
@@ -634,7 +658,7 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
             </ControlsContainer>
 
             <AnimatePresence mode="wait">
-              {!hideText && (
+              {!hideText && (currentSection.id !== 'intro' || showText) && (
                 <ContentOverlay
                   key="content-overlay"
                   position={currentSection.textPosition}
@@ -642,14 +666,14 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 1.5 }}
                 >
                   <Title 
                     ref={titleRef}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
+                    transition={{ duration: 1, delay: 0.2 }}
                   >
                     {currentSection.title}
                   </Title>
@@ -660,7 +684,7 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3, delay: 0.2 }}
+                      transition={{ duration: 1, delay: 0.4 }}
                     >
                       {currentSection.subtitle}
                     </Subtitle>
