@@ -32,12 +32,32 @@ const HeaderContent = styled.div`
 `;
 
 const Logo = styled.div`
-  font-size: var(--font-size-large);
+  font-size: calc(var(--font-size-large) * 1.2);
   font-weight: 700;
   letter-spacing: 2px;
+  line-height: 0.9;
+  
+  a {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .visuals {
+    margin-left: 2rem;
+    font-size: 0.5em;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
   
   @media (max-width: 480px) {
-    font-size: var(--font-size-medium);
+    font-size: calc(var(--font-size-medium) * 1.2);
+    
+    .visuals {
+      margin-left: 2rem;
+      letter-spacing: 1.5px;
+      margin-top: 4px;
+    }
   }
 `;
 
@@ -250,16 +270,14 @@ export default function Header() {
     <HeaderContainer $scrolled={scrolled || isMenuOpen}>
       <HeaderContent>
         <Logo>
-          <Link href="/" onClick={(e) => handleNavigation(e, '/')}>LAPIS</Link>
+          <Link href="/" onClick={(e) => handleNavigation(e, '/')}>
+            <span>LAPIS</span>
+            <span className="visuals">VISUALS</span>
+          </Link>
         </Logo>
         
         <Nav>
           <NavList>
-            <NavItem>
-              <Link href="/our-work" onClick={(e) => handleNavigation(e, '/our-work')}>
-                Our Work
-              </Link>
-            </NavItem>
             <NavItem>
               <Link href="/#contact" onClick={(e) => handleNavigation(e, '/#contact')}>
                 Contact
@@ -291,11 +309,6 @@ export default function Header() {
             variants={menuVariants}
           >
             <MobileNavList>
-              <MobileNavItem variants={itemVariants}>
-                <Link href="/our-work" onClick={(e) => { handleNavigation(e, '/our-work'); closeMenu(); }}>
-                  Our Work
-                </Link>
-              </MobileNavItem>
               <MobileNavItem variants={itemVariants}>
                 <Link href="/#contact" onClick={(e) => { handleNavigation(e, '/#contact'); closeMenu(); }}>
                   Contact

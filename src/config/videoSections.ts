@@ -4,7 +4,7 @@ import { VideoSection } from '../components/video/SnapScrollVideoSection';
 export const videoSections: VideoSection[] = [
   {
     id: 'intro',
-    title: 'Welcome to Lapis',
+    title: 'Welcome To Lapis Visual',
     subtitle: 'Creating beautiful digital experiences',
     videoSrc: { src: '/videos/lapis_demo.mp4', type: 'video/mp4' },
     textPosition: VIDEO_POSITIONS.CENTER,
