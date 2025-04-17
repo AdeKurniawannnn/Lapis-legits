@@ -18,7 +18,7 @@ export default function OurWorkPage() {
     <>
       <Header />
       <Main>
-        <PortfolioSnapSection title="Our Work" />
+        <PortfolioSnapSection title="Serveces" />
       </Main>
       <Footer />
     </>
