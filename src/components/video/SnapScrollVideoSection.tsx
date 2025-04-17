@@ -132,7 +132,7 @@ const BackgroundColor = styled(motion.div)<{ bgColor?: string }>`
 `;
 
 const Title = styled(motion.h2)`
-  font-size: 4.5rem;
+  font-size: 4rem;
   font-weight: 300;
   margin-bottom: 1rem;
   line-height: 1.2;

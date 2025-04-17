@@ -32,7 +32,7 @@ const HeaderContent = styled.div`
 `;
 
 const Logo = styled.div`
-  font-size: calc(var(--font-size-large) * 1.2);
+  font-size: calc(var(--font-size-large) * 1.3);
   font-weight: 700;
   letter-spacing: 2px;
   line-height: 0.9;
@@ -44,14 +44,14 @@ const Logo = styled.div`
   }
 
   .visuals {
-    margin-left: 2rem;
-    font-size: 0.5em;
+    margin-left: 3rem;
+    font-size: 0.3em;
     letter-spacing: 2px;
     margin-top: 4px;
   }
   
   @media (max-width: 480px) {
-    font-size: calc(var(--font-size-medium) * 1.2);
+    font-size: calc(var(--font-size-medium) * 1.3);
     
     .visuals {
       margin-left: 2rem;
@@ -284,6 +284,11 @@ export default function Header() {
               </Link>
             </NavItem>
             <NavItem>
+              <Link href="/our-work" onClick={(e) => handleNavigation(e, '/our-work')}>
+                Services
+              </Link>
+            </NavItem>
+            <NavItem>
               <IconButton onClick={handleDownload} title="Download Company Profile">
                 <Download size={18} />
               </IconButton>
@@ -312,6 +317,11 @@ export default function Header() {
               <MobileNavItem variants={itemVariants}>
                 <Link href="/#contact" onClick={(e) => { handleNavigation(e, '/#contact'); closeMenu(); }}>
                   Contact
+                </Link>
+              </MobileNavItem>
+              <MobileNavItem variants={itemVariants}>
+                <Link href="/our-work" onClick={(e) => { handleNavigation(e, '/our-work'); closeMenu(); }}>
+                  Services
                 </Link>
               </MobileNavItem>
             </MobileNavList>
