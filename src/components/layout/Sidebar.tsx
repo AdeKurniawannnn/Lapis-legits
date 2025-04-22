@@ -389,6 +389,13 @@ const Section = styled(motion.div)`
   }
 `;
 
+interface ProjectDetail {
+  title: string;
+  image: string;
+  description: string;
+  fullDescription?: string;
+}
+
 interface ModalContent {
   title: string;
   text: string;
@@ -414,6 +421,37 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
     address: '',
     type: 'about'
   });
+
+  const [projectDetail, setProjectDetail] = useState<ProjectDetail | null>(null);
+
+  const handleProjectClick = (project: ProjectDetail) => {
+    setProjectDetail(project);
+  };
+
+  const closeProjectDetail = () => {
+    setProjectDetail(null);
+  };
+
+  const projects = [
+    {
+      title: "Ballin",
+      image: "/images/portfolio/Ballin.jpg",
+      description: "A thought-provoking visual narrative that explores the intersection of words and emotions, challenging viewers to reflect on the power of communication in modern society.",
+      fullDescription: "A thought-provoking visual narrative that explores the intersection of words and emotions, challenging viewers to reflect on the power of communication in modern society. This project delves deep into the human psyche, examining how we express ourselves in an increasingly digital world."
+    },
+    {
+      title: "Think You Say",
+      image: "/images/portfolio/Think you say .jpg",
+      description: "Maybe we can live without libraries, people like you and me. Maybe some of us can afford to buy every book we want, but the vast majority of people in this country cannot.",
+      fullDescription: "An intimate exploration of human thought processes and verbal expression, this project challenges our understanding of communication and self-expression in the modern age."
+    },
+    {
+      title: "Rembulan",
+      image: "/images/portfolio/rembulan.jpg",
+      description: "A luminous symbol of longing and serenity, the rembulan drifts across the night sky, whispering unspoken dreams and illuminating the silent depths of the soul.",
+      fullDescription: "A poetic visual journey that captures the ethereal beauty of moonlight and its profound impact on human emotions. This project explores themes of nostalgia, solitude, and the eternal dance between light and shadow."
+    }
+  ];
 
   const handleModalOpen = (type: 'work' | 'values' | 'about') => {
     const baseAddress = 'Jl. Digital Creative No.123\nJakarta Selatan, Indonesia 12345\ninfo@lapisstudio.com\n+62 21 1234 5678';
@@ -465,24 +503,14 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
         subtext: '',
         extraContent: (
           <ArticleContent>
-            <article>
-              <div className="project-item">
-                <img src="/images/portfolio/Ballin.jpg" alt="Ballin Project Preview" />
-                <p>Maybe we can live without libraries, people like you and me. Maybe some of us can afford to buy every book we want, but the vast majority of people in this country cannot. When you are growing up there are a lot of people who go to the library who don't have the money to buy books. If you are a kid growing up in a home you are lucky if you have one or two books of your own.</p>
-              </div>
-            </article>
-            <article>
-              <div className="project-item">
-                <img src="/images/portfolio/Think you say .jpg" alt="Think You Say Project" />
-                <p>Maybe we can live without libraries, people like you and me. Maybe some of us can afford to buy every book we want, but the vast majority of people in this country cannot. When you are growing up there are a lot of people who go to the library who don't have the money to buy books. If you are a kid growing up in a home you are lucky if you have one or two books of your own.</p>
-              </div>
-            </article>
-            <article>
-              <div className="project-item">
-                <img src="/images/portfolio/rembulan.jpg" alt="Rembulan Project" />
-                <p>Maybe we can live without libraries, people like you and me. Maybe some of us can afford to buy every book we want, but the vast majority of people in this country cannot. When you are growing up there are a lot of people who go to the library who don't have the money to buy books. If you are a kid growing up in a home you are lucky if you have one or two books of your own.</p>
-              </div>
-            </article>
+            {projects.map((project, index) => (
+              <article key={index}>
+                <div className="project-item" onClick={() => handleProjectClick(project)} style={{ cursor: 'pointer' }}>
+                  <img src={project.image} alt={`${project.title} Preview`} />
+                  <p>{project.description}</p>
+                </div>
+              </article>
+            ))}
           </ArticleContent>
         ),
         address: '',
@@ -501,13 +529,13 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
 
   return (
     <>
-      <VerticalText $offset={-15} onClick={() => handleModalOpen('work')}>
+      <VerticalText $offset={0} onClick={() => handleModalOpen('work')}>
         Our Works
       </VerticalText>
       {/* <VerticalText $right $offset={-15} onClick={() => handleModalOpen('values')}>
         Our Values
       </VerticalText> */}
-      <VerticalText $right $offset={15} onClick={() => handleModalOpen('about')}>
+      <VerticalText $right $offset={0} onClick={() => handleModalOpen('about')}>
         About Us
       </VerticalText>
 
@@ -582,6 +610,77 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
                   {modalContent.extraContent}
                 </Section>
               )}
+            </ModalText>
+          </ModalOverlay>
+        )}
+
+        {projectDetail && (
+          <ModalOverlay
+            variants={overlayVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={closeProjectDetail}
+          >
+            <CloseButton
+              variants={buttonVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              whileHover="hover"
+              onClick={closeProjectDetail}
+            >
+              ×
+            </CloseButton>
+            
+            <ModalText
+              variants={modalContentVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={e => e.stopPropagation()}
+            >
+              <motion.div variants={textVariants} custom={0}>
+                <motion.h1>{projectDetail.title}</motion.h1>
+                <div style={{ 
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: '1rem',
+                  margin: '2rem 0'
+                }}>
+                  <img 
+                    src={projectDetail.image} 
+                    alt={`${projectDetail.title} View 1`}
+                    style={{ 
+                      width: '100%', 
+                      height: '200px',
+                      objectFit: 'cover',
+                      borderRadius: '8px',
+                    }} 
+                  />
+                  <img 
+                    src={projectDetail.image} 
+                    alt={`${projectDetail.title} View 2`}
+                    style={{ 
+                      width: '100%', 
+                      height: '200px',
+                      objectFit: 'cover',
+                      borderRadius: '8px',
+                    }} 
+                  />
+                  <img 
+                    src={projectDetail.image} 
+                    alt={`${projectDetail.title} View 3`}
+                    style={{ 
+                      width: '100%', 
+                      height: '200px',
+                      objectFit: 'cover',
+                      borderRadius: '8px',
+                    }} 
+                  />
+                </div>
+                <motion.p>{projectDetail.fullDescription}</motion.p>
+              </motion.div>
             </ModalText>
           </ModalOverlay>
         )}
