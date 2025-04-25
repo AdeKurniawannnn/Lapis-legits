@@ -3,19 +3,25 @@
 import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import Image from 'next/image';
+import { FaInstagram, FaYoutube, FaLinkedinIn, FaFacebookF } from 'react-icons/fa';
 
 const FooterContainer = styled.footer`
-  background-color: #050505;
+  background-color: #000000;
   padding: var(--spacing-xl) 0;
+  color: #ffffff;
 `;
 
 const FooterContent = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-lg);
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--spacing-xl);
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const FooterColumn = styled.div`
@@ -24,50 +30,53 @@ const FooterColumn = styled.div`
 `;
 
 const FooterLogo = styled.div`
-  font-size: var(--font-size-large);
-  font-weight: 700;
   margin-bottom: var(--spacing-md);
-  letter-spacing: 2px;
+  position: relative;
+  width: 120px;
+  height: 40px;
 `;
 
 const FooterText = styled.p`
-  color: var(--color-text-secondary);
+  color: #808080;
   margin-bottom: var(--spacing-md);
-  font-size: var(--font-size-small);
+  font-size: 16px;
   line-height: 1.6;
+  max-width: 500px;
 `;
 
 const FooterHeading = styled.h3`
-  font-size: var(--font-size-medium);
-  margin-bottom: var(--spacing-md);
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: var(--spacing-lg);
+  color: #ffffff;
 `;
 
 const FooterLinks = styled.ul`
   list-style: none;
+  padding: 0;
 `;
 
 const FooterLink = styled.li`
-  margin-bottom: var(--spacing-sm);
-  
+  margin-bottom: var(--spacing-md);
   a {
-    color: var(--color-text-secondary);
-    transition: color var(--transition-fast);
-    
+    color: #808080;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.2s ease;
     &:hover {
-      color: var(--color-accent);
+      color: #ffffff;
     }
   }
 `;
 
 const FooterBottom = styled.div`
   max-width: 1440px;
-  margin: var(--spacing-lg) auto 0;
+  margin: var(--spacing-xl) auto 0;
   padding: var(--spacing-lg) var(--spacing-lg) 0;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
   @media (max-width: 768px) {
     flex-direction: column;
     gap: var(--spacing-md);
@@ -75,97 +84,87 @@ const FooterBottom = styled.div`
 `;
 
 const Copyright = styled.p`
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-small);
+  color: #808080;
+  font-size: 14px;
 `;
 
 const SocialLinks = styled.div`
   display: flex;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
+  align-items: center;
 `;
 
 const SocialLink = styled.a`
-  color: var(--color-text-secondary);
-  transition: color var(--transition-fast);
-  
+  color: #808080;
+  text-decoration: none;
+  font-size: 20px;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #808080;
+  border-radius: 50%;
   &:hover {
-    color: var(--color-accent);
+    color: #ffffff;
+    border-color: #ffffff;
   }
+`;
+
+const ContactInfo = styled(FooterText)`
+  margin-bottom: 8px;
+  line-height: 1.8;
 `;
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  
   return (
     <FooterContainer>
       <FooterContent>
         <FooterColumn>
-          <FooterLogo>LAPIS</FooterLogo>
+          <FooterHeading>Lapis Visuals</FooterHeading>
           <FooterText>
-            A video production agency specializing in creating immersive and engaging visual content for brands and businesses.
+            A production company based in Jakarta, Indonesia a passion for layered storytelling and purposeful visuals. From short films to branded content, we craft every frame with intention.
+          </FooterText>
+          <FooterText>
+            Layered Stories. Crafted Visuals.
           </FooterText>
         </FooterColumn>
-        
         <FooterColumn>
           <FooterHeading>Services</FooterHeading>
           <FooterLinks>
-            <FooterLink>
-              <Link href="/services/commercial">Commercial Production</Link>
-            </FooterLink>
-            <FooterLink>
-              <Link href="/services/documentary">Documentary</Link>
-            </FooterLink>
-            <FooterLink>
-              <Link href="/services/events">Event Coverage</Link>
-            </FooterLink>
-            <FooterLink>
-              <Link href="/services/corporate">Corporate Videos</Link>
-            </FooterLink>
+            <FooterLink><Link href="/services/commercial">Commercial Production</Link></FooterLink>
+            <FooterLink><Link href="/services/documentary">Documentary</Link></FooterLink>
+            <FooterLink><Link href="/services/corporate">Corporate Videos</Link></FooterLink>
+            <FooterLink><Link href="/services/events">Narrative</Link></FooterLink>
+            <FooterLink><Link href="/services/events">Event Coverage</Link></FooterLink>
+            <FooterLink><Link href="/services/events">Social Media Content</Link></FooterLink>
           </FooterLinks>
         </FooterColumn>
-        
         <FooterColumn>
-          <FooterHeading>Company</FooterHeading>
-          <FooterLinks>
-            <FooterLink>
-              <Link href="/about">About Us</Link>
-            </FooterLink>
-            <FooterLink>
-              <Link href="/portfolio">Portfolio</Link>
-            </FooterLink>
-            <FooterLink>
-              <Link href="/blog">Blog</Link>
-            </FooterLink>
-            <FooterLink>
-              <Link href="/careers">Careers</Link>
-            </FooterLink>
-          </FooterLinks>
-        </FooterColumn>
-        
-        <FooterColumn>
-          <FooterHeading>Contact</FooterHeading>
-          <FooterText>
-            123 Creative Studio St.<br />
-            Los Angeles, CA 90210<br />
-            info@lapisproduction.com<br />
-            +1 (323) 555-0123
-          </FooterText>
+          <FooterHeading></FooterHeading>
+          <ContactInfo><br />
+            Email : lapisvisualsinfo@gmail.com<br />
+          </ContactInfo>
+          <SocialLinks>
+            <SocialLink href="https://instagram.com" target="_blank" aria-label="Instagram">
+              <FaInstagram />
+            </SocialLink>
+            <SocialLink href="https://youtube.com" target="_blank" aria-label="YouTube">
+              <FaYoutube />
+            </SocialLink>
+            <SocialLink href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+              <FaLinkedinIn />
+            </SocialLink>
+            <SocialLink href="https://facebook.com" target="_blank" aria-label="Facebook">
+              <FaFacebookF />
+            </SocialLink>
+          </SocialLinks>
         </FooterColumn>
       </FooterContent>
-      
       <FooterBottom>
         <Copyright>© {currentYear} LAPIS. All rights reserved.</Copyright>
-        <SocialLinks>
-          <SocialLink href="https://instagram.com" target="_blank" aria-label="Instagram">
-            Instagram
-          </SocialLink>
-          <SocialLink href="https://vimeo.com" target="_blank" aria-label="Vimeo">
-            Vimeo
-          </SocialLink>
-          <SocialLink href="https://youtube.com" target="_blank" aria-label="YouTube">
-            YouTube
-          </SocialLink>
-        </SocialLinks>
       </FooterBottom>
     </FooterContainer>
   );

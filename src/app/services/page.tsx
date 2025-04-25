@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ServicesContainer = styled.div`
   padding: 8rem 8rem 4rem;
@@ -20,13 +20,14 @@ const ServicesContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 4.5rem;
-  margin-bottom: 3rem;
-  font-weight: 500;
+  font-size: 3.5rem;
+  margin-bottom: 4rem;
+  font-weight: 300;
+  text-align: center;
 
   @media (max-width: 1024px) {
     font-size: 3.5rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
   }
 
   @media (max-width: 768px) {
@@ -35,248 +36,162 @@ const Title = styled.h1`
   }
 `;
 
-const Description = styled.p`
-  font-size: 1.2rem;
-  line-height: 1.8;
-  margin-bottom: 6rem;
-  opacity: 0.7;
-  max-width: 900px;
-
-  @media (max-width: 1024px) {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    margin-bottom: 5rem;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 4rem;
-  }
-`;
-
-const CreativeSection = styled.div`
-  margin-bottom: 6rem;
-
-  @media (max-width: 1024px) {
-    margin-bottom: 5rem;
-  }
-
-  @media (max-width: 768px) {
-    margin-bottom: 4rem;
-  }
-`;
-
-const CreativeTitle = styled.h2`
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  font-weight: 400;
-
-  @media (max-width: 1024px) {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 1.8rem;
-    margin-bottom: 1.2rem;
-  }
-`;
-
-const ServiceList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-`;
-
-const ServiceItem = styled.li`
+const ServiceSection = styled.div`
   margin-bottom: 1rem;
-  opacity: 0.7;
-  font-size: 1.1rem;
-  
-  &::before {
-    content: "- ";
-  }
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-    margin-bottom: 0.8rem;
-  }
 `;
 
-const AccordionSection = styled.div`
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-`;
-
-const AccordionHeader = styled.div<{ $isActive?: boolean }>`
-  padding: 1.5rem 0;
+const ServiceTitle = styled.div`
+  font-size: 1.5rem;
+  padding: 1rem 0;
+  font-weight: 300;
+  opacity: 0.9;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   cursor: pointer;
-  
-  h3 {
-    font-size: 2rem;
-    font-weight: 400;
-    opacity: ${props => props.$isActive ? 1 : 0.7};
+  user-select: none;
 
-    @media (max-width: 1024px) {
-      font-size: 1.8rem;
-    }
-
-    @media (max-width: 768px) {
-      font-size: 1.5rem;
-    }
+  .title-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
-  span {
-    transform: ${props => props.$isActive ? 'rotate(180deg)' : 'rotate(0)'};
-    transition: transform 0.3s ease;
+  &::before {
+    content: "◆";
+    font-size: 0.8rem;
     opacity: 0.7;
-    font-size: 1rem;
+  }
 
-    @media (max-width: 768px) {
-      font-size: 0.8rem;
+  .arrow {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    
+    &.open {
+      transform: rotate(180deg);
     }
-  }
-
-  @media (max-width: 1024px) {
-    padding: 1.2rem 0;
-  }
-
-  @media (max-width: 768px) {
-    padding: 1rem 0;
   }
 `;
 
-const AccordionContent = styled(motion.div)`
-  padding: 0;
+const SubServiceList = styled(motion.div)`
+  padding-left: 1.5rem;
   overflow: hidden;
 `;
 
-const AccordionInner = styled.div`
-  padding: 0 0 2rem;
-  
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+const SubServiceItem = styled.div`
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 
-  li {
-    margin-bottom: 0.8rem;
+  &::before {
+    content: "➜";
+    font-size: 0.8rem;
     opacity: 0.7;
-    font-size: 1.1rem;
-    
-    &::before {
-      content: "- ";
-    }
-
-    @media (max-width: 768px) {
-      font-size: 1rem;
-      margin-bottom: 0.6rem;
-    }
   }
 
-  @media (max-width: 1024px) {
-    padding: 0 0 1.5rem;
-  }
-
-  @media (max-width: 768px) {
-    padding: 0 0 1rem;
+  &:last-child {
+    margin-bottom: 1rem;
   }
 `;
 
-export default function Services() {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+const DownloadButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  opacity: 0.9;
+  text-decoration: none;
+  margin-top: 4rem;
+  
+  &:hover {
+    opacity: 1;
+  }
+`;
 
-  const toggleSection = (section: string) => {
-    if (activeSection === section) {
-      setActiveSection(null);
-    } else {
-      setActiveSection(section);
-    }
-  };
-
-  const accordionData = {
-    'pre-pro': [
-      'location scouting',
-      'casting',
-      'equipment planning',
-      'scheduling',
-      'budget management'
-    ],
-    'production': [
-      'cinematography',
-      'lighting design',
-      'sound recording',
-      'art direction',
-      'on-set coordination'
-    ],
-    'post': [
-      'editing',
-      'color grading',
-      'sound design',
-      'visual effects',
-      'final delivery'
-    ],
-    'specialty': [
-      'aerial cinematography',
-      'underwater filming',
-      'time-lapse photography',
-      'motion control',
-      'virtual production'
+const servicesData = [
+  {
+    title: "Consultation and Development",
+    items: [
+      "Directing team",
+      "Director's statement, pitch decks and look book",
+      "Concept research and development",
+      "Storyboarding",
+      "Script refinement"
     ]
+  },
+  {
+    title: "Pre-production",
+    items: [
+      "Talent acquisition",
+      "Equipment sourcing",
+      "Location scouting",
+      "Scheduling and shoot logistical planning",
+      "Budgeting"
+    ]
+  },
+  {
+    title: "Production",
+    items: [
+      "Directors",
+      "Creative team support",
+      "Producer team and production management",
+      "Director of photography and crew",
+      "Audio, light, and grip equipment"
+    ]
+  },
+  {
+    title: "Post-production",
+    items: [
+      "Editing",
+      "Post-production scheduling and management",
+      "Color grade, audio mix and sound design",
+      "Royalty-free music sourcing and licensing original music score",
+      "Conform and final delivery"
+    ]
+  }
+];
+
+export default function Services() {
+  const [openSection, setOpenSection] = useState<number | null>(null);
+
+  const toggleSection = (index: number) => {
+    setOpenSection(openSection === index ? null : index);
   };
 
   return (
     <ServicesContainer>
       <Title>SERVICES</Title>
-      
-      <Description>
-        We know every project is unique, so we approach each one with fresh ideas and a tailored plan. 
-        Our team works closely with you through every step—from concept development and script refinement 
-        to production and final delivery. We dig into the details, research, and everything in between 
-        to make sure your project stands out and gets the results you need.
-      </Description>
 
-      <CreativeSection>
-        <CreativeTitle>creative</CreativeTitle>
-        <ServiceList>
-          <ServiceItem>director team</ServiceItem>
-          <ServiceItem>concept development and collaboration</ServiceItem>
-          <ServiceItem>director treatment and pitch decks</ServiceItem>
-          <ServiceItem>script refinement</ServiceItem>
-          <ServiceItem>research and storyboarding</ServiceItem>
-        </ServiceList>
-      </CreativeSection>
-
-      {Object.entries(accordionData).map(([section, items]) => (
-        <AccordionSection key={section}>
-          <AccordionHeader 
-            $isActive={activeSection === section}
-            onClick={() => toggleSection(section)}
-          >
-            <h3>{section}</h3>
-            <span>▼</span>
-          </AccordionHeader>
-          <AccordionContent
-            initial={false}
-            animate={{ 
-              height: activeSection === section ? 'auto' : 0,
-              opacity: activeSection === section ? 1 : 0
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <AccordionInner>
-              <ul>
-                {items.map((item, index) => (
-                  <li key={index}>{item}</li>
+      {servicesData.map((section, index) => (
+        <ServiceSection key={index}>
+          <ServiceTitle onClick={() => toggleSection(index)}>
+            <div className="title-content">
+              {section.title}
+            </div>
+            <span className={`arrow ${openSection === index ? 'open' : ''}`}>▼</span>
+          </ServiceTitle>
+          <AnimatePresence>
+            {openSection === index && (
+              <SubServiceList
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+              >
+                {section.items.map((item, itemIndex) => (
+                  <SubServiceItem key={itemIndex}>{item}</SubServiceItem>
                 ))}
-              </ul>
-            </AccordionInner>
-          </AccordionContent>
-        </AccordionSection>
+              </SubServiceList>
+            )}
+          </AnimatePresence>
+        </ServiceSection>
       ))}
     </ServicesContainer>
   );
