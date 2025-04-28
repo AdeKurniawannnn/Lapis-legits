@@ -279,7 +279,7 @@ export default function Header() {
         <Nav>
           <NavList>
             <NavItem>
-              <Link href="/#contact" onClick={(e) => handleNavigation(e, '/#contact')}>
+              <Link href="/contact" onClick={(e) => handleNavigation(e, '/contact')}>
                 Contact
               </Link>
             </NavItem>
@@ -315,7 +315,7 @@ export default function Header() {
           >
             <MobileNavList>
               <MobileNavItem variants={itemVariants}>
-                <Link href="/#contact" onClick={(e) => { handleNavigation(e, '/#contact'); closeMenu(); }}>
+                <Link href="/contact" onClick={(e) => { handleNavigation(e, '/contact'); closeMenu(); }}>
                   Contact
                 </Link>
               </MobileNavItem>
