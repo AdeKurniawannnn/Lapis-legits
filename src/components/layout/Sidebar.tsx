@@ -196,6 +196,12 @@ const ModalText = styled(motion.div)`
     }
 
     .image-grid {
+      grid-template-columns: 1fr;
+      
+      .image-container {
+        height: 220px;
+      }
+      
       &.single-image {
         max-width: 100%;
         
@@ -496,9 +502,9 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
 
   const projects = [
     {
-      title: "Ballin Product Commercial",
+      title: "⁠Ballin Product Commercial",
       image: "/images/portfolio/Ballin.jpg",
-      description: "Elegance. Luxury. Allure",
+      description: "⁠Ballin Product Commercial",
       images: [
         "/images/portfolio/Ballin2.jpg",
         "/images/portfolio/Ballin.jpg",
@@ -510,9 +516,9 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
       year: "2024"
     },
     {
-      title: "Eternal Plus & Wateru Event for Color Run",
+      title: "⁠Eternal Plus and Water for Color Run",
       image: "/images/portfolio/Eternal Plus4.jpg",
-      description: "Wateru Event for Color Run",
+      description: "⁠Eternal Plus and Water for Color Run",
       images: [
         "/images/portfolio/Eternal Plus2.jpg",
         "/images/portfolio/Eternal Plus4.jpg",
@@ -523,20 +529,9 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
       category: "Event Coverage."
     },
     {
-      title: "Ramadhan with Eternal Plus",
-      image: "/images/portfolio/Ramadan.jpg",
-      description: "Ramadhan with Eternal Plus",
-      images: [
-        "/images/portfolio/Ramadan.jpg",
-      ],
-      tagline: "Produced by Lapis Visuals",
-      Text: "Commercial",
-      year: "2025"
-    },
-    {
-      title: "Things you can see",
+      title: "Things You Can See (2024)",
       image: "/images/portfolio/Think you say .jpg",
-      description: "Things You Can See",
+      description: "Things You Can See (2024)",
       images: [
         "/images/portfolio/Things You2.jpg",
         "/images/portfolio/Things You1.jpg",
@@ -555,9 +550,9 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
     
     },
     {
-      title: "Timeless Treasures",
+      title: "Timeless Treasures - Remboelan (2024)",
       image: "/images/portfolio/rembulan.jpg",
-      description: "Remboelan",
+      description: "Timeless Treasures - Remboelan (2024)",
       images: [
         "/images/portfolio/rembulan.jpg",
         "/images/portfolio/Remnbulann1.jpg",
@@ -571,6 +566,17 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
         </>
       ),
       year: "2024"
+    },
+    {
+      title: "Ramadhan with Eternal Plus",
+      image: "/images/portfolio/Ramadan.jpg",
+      description: "Ramadhan with Eternal Plus",
+      images: [
+        "/images/portfolio/Ramadan.jpg",
+      ],
+      tagline: "Produced by Lapis Visuals",
+      Text: "Commercial",
+      year: "2025"
     }
   ];
 

@@ -121,7 +121,7 @@ const VideoTest: React.FC = () => {
     return () => {
       clearVideoPreloadCache();
     };
-  }, []);
+  }, [sampleVideoSources, shortVideoSources]);
   
   return (
     <Container>
