@@ -14,32 +14,40 @@ const VerticalText = styled.div<{ $right?: boolean; $center?: boolean; $offset?:
     if (props.$center) return 'translate(-50%, -50%) rotate(90deg)';
     return props.$right ? 'translateY(-50%) rotate(-90deg)' : 'translateY(-50%) rotate(90deg)';
   }};
-  font-size: 14px;
-  letter-spacing: 2px;
+  font-size: 18px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--color-text-light);
-  opacity: 0.7;
+  color: #FFFFFF;
+  opacity: 1;
   z-index: 1000;
   mix-blend-mode: difference;
   cursor: pointer;
   white-space: nowrap;
   font-weight: 500;
+  text-shadow: 0 0 5px rgb(255, 255, 255);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   @media (max-width: 768px) {
-    font-size: 11px;
+    font-size: 16px;
     letter-spacing: 1.5px;
     ${props => props.$right ? 'right: 30px;' : 'left: 30px;'}
   }
 
   @media (max-width: 480px) {
-    font-size: 10px;
+    font-size: 14px;
     letter-spacing: 1px;
     ${props => props.$right ? 'right: 25px;' : 'left: 25px;'}
   }
 
   &:hover {
     opacity: 1;
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 20px;
+    mix-blend-mode: normal;
     transform: ${props => {
       if (props.$center) return 'translate(-50%, -50%) rotate(90deg) scale(1.1)';
       return props.$right ? 
@@ -47,6 +55,7 @@ const VerticalText = styled.div<{ $right?: boolean; $center?: boolean; $offset?:
         'translateY(-50%) rotate(90deg) scale(1.1)';
     }};
     letter-spacing: 3px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 10px rgba(255, 255, 255, 1), 0 0 5px rgba(255, 255, 255, 1);
   }
 `;
 
@@ -72,17 +81,18 @@ const ModalText = styled(motion.div)`
   color: #fff;
   font-size: 1.25rem;
   line-height: 1.3;
-  font-weight: 300;
+  font-weight: 500;
   letter-spacing: 0.5px;
   padding: 1rem 8rem;
   max-height: 90vh;
   overflow-y: auto;
   margin: auto;
+  text-align: center;
 
   h1 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    font-weight: 300;
+    font-weight: 700;
     text-align: center;
   }
 
@@ -247,6 +257,7 @@ const ArticleContent = styled(motion.div)`
   flex-direction: column;
   gap: 2rem;
   margin: 2rem 0;
+  text-align: center;
 
   .projects-container {
     display: grid;
@@ -276,6 +287,10 @@ const ArticleContent = styled(motion.div)`
 
     .content {
       padding: 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
     p {
@@ -283,6 +298,9 @@ const ArticleContent = styled(motion.div)`
       font-size: 1rem;
       line-height: 1.6;
       opacity: 0.8;
+    }
+
+    p:first-child {
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
@@ -462,6 +480,7 @@ interface ProjectDetail {
   Text?: React.ReactNode;
   category?: string;
   images?: string[];
+  keterangan?: string;
 }
 
 interface ModalContent {
@@ -504,7 +523,7 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
     {
       title: "⁠Ballin Product Commercial",
       image: "/images/portfolio/Ballin.jpg",
-      description: "⁠Ballin Product Commercial",
+      description: '"Ballin"',
       images: [
         "/images/portfolio/Ballin2.jpg",
         "/images/portfolio/Ballin.jpg",
@@ -513,12 +532,13 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
       tagline: "Elegance. Luxury. Allure.",
       Text: "Produced by Lapis Visuals",
       category: "Product Commercial",
-      year: "2024"
+      year: "2024",
+      keterangan: "Product Commercial"
     },
     {
       title: "⁠Eternal Plus and Water for Color Run",
       image: "/images/portfolio/Eternal Plus4.jpg",
-      description: "⁠Eternal Plus and Water for Color Run",
+      description: '"⁠Eternal Plus and Water for Color Run"',
       images: [
         "/images/portfolio/Eternal Plus2.jpg",
         "/images/portfolio/Eternal Plus4.jpg",
@@ -526,12 +546,13 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
       ],
       Text: "Produced by Lapis Visuals",
       year: "2024",
-      category: "Event Coverage."
+      category: "Event Coverage",
+      keterangan: "Event Coverage."
     },
     {
       title: "Things You Can See (2024)",
       image: "/images/portfolio/Think you say .jpg",
-      description: "Things You Can See (2024)",
+      description: '“Things You Can See” (2024)',
       images: [
         "/images/portfolio/Things You2.jpg",
         "/images/portfolio/Things You1.jpg",
@@ -546,13 +567,14 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
           Director of Photography: Cheriana Resky<br/>
         </>
       ),
-      year: "2024"
+      year: "2024",
+      keterangan: "Short Film."
     
     },
     {
       title: "Timeless Treasures - Remboelan (2024)",
       image: "/images/portfolio/rembulan.jpg",
-      description: "Timeless Treasures - Remboelan (2024)",
+      description: '“Timeless Treasures” (2024)',
       images: [
         "/images/portfolio/rembulan.jpg",
         "/images/portfolio/Remnbulann1.jpg",
@@ -565,18 +587,20 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
           Produced by Lapis Visuals<br/>
         </>
       ),
-      year: "2024"
+      year: "2024",
+      keterangan: "Commercial."
     },
     {
       title: "Ramadhan with Eternal Plus",
       image: "/images/portfolio/Ramadan.jpg",
-      description: "Ramadhan with Eternal Plus",
+      description: '"Ramadhan with Eternal Plus"',
       images: [
         "/images/portfolio/Ramadan.jpg",
       ],
       tagline: "Produced by Lapis Visuals",
       Text: "Commercial",
-      year: "2025"
+      year: "2025",
+      keterangan: "Commercial."
     }
   ];
 
@@ -604,37 +628,6 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
               At Lapis Visuals, we don't just produce content—we tell stories that connect, inspire, and endure.
             </div>
           </TextContent>
-        ),
-        extraTitle: 'Awards & Recognition',
-        extraContent: (
-          <ArticleContent>
-            <div className="projects-container">
-              <div className="project-item">
-                <img src="/images/portfolio/BEST SHORT FILM DIRECTOR - Asian Film Festival Los Angeles Hollywood - 2023 (1).png" alt="Best Short Film Director Award" />
-                <div className="content">
-                  <p>Best Short Film Director - Asian Film Festival Los Angeles Hollywood 2023</p>
-                </div>
-              </div>
-              <div className="project-item">
-                <img src="/images/portfolio/ISA_HM_Jul23_-_Golden.png" alt="Independent Shorts Awards" />
-                <div className="content">
-                  <p>Honorable Mention Award - Independent Shorts Awards (ISA) July 2023</p>
-                </div>
-              </div>
-              <div className="project-item">
-                <img src="/images/portfolio/LA Official Selection (W).png" alt="LA Film Awards Selection" />
-                <div className="content">
-                  <p>Official Selection - Los Angeles Film Awards 2023</p>
-                </div>
-              </div>
-              <div className="project-item">
-                <img src="/images/portfolio/New York Laurels 2024 (W).png" alt="New York Film Awards" />
-                <div className="content">
-                  <p>Official Selection - New York Film Awards 2024</p>
-                </div>
-              </div>
-            </div>
-          </ArticleContent>
         ),
         address: '',
         type: 'about'
@@ -666,6 +659,15 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
                   <img src={project.image} alt={`${project.title} Preview`} />
                   <div className="content">
                     <p>{project.description}</p>
+                    <p style={{ 
+                      fontStyle: 'italic', 
+                      marginTop: '8px', 
+                      fontSize: '0.85em',
+                      opacity: 0.7,
+                      textAlign: 'center'
+                    }}>
+                      {project.keterangan || 'Produksi Visual'}
+                    </p>
                   </div>
                 </div>
               ))}

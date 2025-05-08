@@ -649,9 +649,9 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
               <ControlButton onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
                 {isPlaying ? <Pause size={20} /> : <Play size={20} />}
               </ControlButton>
-              <ControlButton onClick={toggleMute} aria-label={isMuted ? "Unmute" : "Mute"}>
+              {/* <ControlButton onClick={toggleMute} aria-label={isMuted ? "Unmute" : "Mute"}>
                 {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-              </ControlButton>
+              </ControlButton> */}
               <ControlButton onClick={replayVideo} aria-label="Replay">
                 <RotateCcw size={20} />
               </ControlButton>

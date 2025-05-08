@@ -1,198 +1,154 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Footer from '@/components/layout/Footer';
 
 const ServicesContainer = styled.div`
-  padding: 8rem 8rem 4rem;
-  max-width: 1400px;
+  padding: 8rem 2rem 4rem;
+  max-width: 1200px;
   margin: 0 auto;
   color: var(--color-text);
+  text-align: left;
 
   @media (max-width: 1024px) {
-    padding: 7rem 4rem 3rem;
+    padding: 7rem 2rem 3rem;
   }
 
   @media (max-width: 768px) {
-    padding: 6rem 2rem 2rem;
+    padding: 6rem 1.5rem 2rem;
   }
 `;
 
 const Title = styled.h1`
   font-size: 3.5rem;
   margin-bottom: 4rem;
-  font-weight: 300;
+  font-weight: 400;
+  color: #FFFFFF;
   text-align: center;
 
   @media (max-width: 1024px) {
     font-size: 3.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
   }
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
+    font-size: 2.8rem;
+    margin-bottom: 2.5rem;
   }
 `;
 
 const ServiceSection = styled.div`
+  margin-bottom: 2.5rem;
+  max-width: 900px;
+`;
+
+const ServiceHeader = styled.div`
   margin-bottom: 1rem;
 `;
 
-const ServiceTitle = styled.div`
+const ServiceTitle = styled.h2`
   font-size: 1.5rem;
-  padding: 1rem 0;
-  font-weight: 300;
-  opacity: 0.9;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  cursor: pointer;
-  user-select: none;
-
-  .title-content {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  font-weight: 400;
+  color: #CCCCCC;
+  margin-bottom: 0.5rem;
+  
+  span {
+    opacity: 0.8;
   }
+`;
 
-  &::before {
-    content: "◆";
-    font-size: 0.8rem;
-    opacity: 0.7;
-  }
+const ServiceDescription = styled.p`
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #999999;
+  max-width: 900px;
+  margin: 0;
+`;
 
-  .arrow {
-    font-size: 0.8rem;
+const DownloadIcon = styled.div`
+  margin-top: 3rem;
+  text-align: center;
+  
+  svg {
+    width: 40px;
+    height: 40px;
     opacity: 0.7;
-    transform-origin: center;
-    transition: transform 0.3s ease;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
     
-    &.open {
-      transform: rotate(180deg);
+    &:hover {
+      opacity: 1;
     }
   }
 `;
 
-const SubServiceList = styled(motion.div)`
-  padding-left: 1.5rem;
-  overflow: hidden;
-`;
-
-const SubServiceItem = styled.div`
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  opacity: 0.7;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  &::before {
-    content: "➜";
-    font-size: 0.8rem;
-    opacity: 0.7;
-  }
-
-  &:last-child {
-    margin-bottom: 1rem;
-  }
-`;
-
-const DownloadButton = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.2rem;
-  color: var(--color-text);
-  opacity: 0.9;
-  text-decoration: none;
+const FooterSection = styled.div`
   margin-top: 4rem;
-  
-  &:hover {
-    opacity: 1;
-  }
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #CCCCCC;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  opacity: 0.7;
 `;
-
-const servicesData = [
-  {
-    title: "Consultation and Development",
-    items: [
-      "Directing team",
-      "Director's statement, pitch decks and look book",
-      "Concept research and development",
-      "Storyboarding",
-      "Script refinement"
-    ]
-  },
-  {
-    title: "Pre-production",
-    items: [
-      "Talent acquisition",
-      "Equipment sourcing",
-      "Location scouting",
-      "Scheduling and shoot logistical planning",
-      "Budgeting"
-    ]
-  },
-  {
-    title: "Production",
-    items: [
-      "Directors",
-      "Creative team support",
-      "Producer team and production management",
-      "Director of photography and crew",
-      "Audio, light, and grip equipment"
-    ]
-  },
-  {
-    title: "Post-production",
-    items: [
-      "Editing",
-      "Post-production scheduling and management",
-      "Color grade, audio mix and sound design",
-      "Royalty-free music sourcing and licensing original music score",
-      "Conform and final delivery"
-    ]
-  }
-];
 
 export default function Services() {
-  const [openSection, setOpenSection] = useState<number | null>(null);
-
-  const toggleSection = (index: number) => {
-    setOpenSection(openSection === index ? null : index);
-  };
+  const servicesData = [
+    {
+      title: "Commercial",
+      subtitle: "Purpose-driven storytelling built to sell.",
+      description: "We craft visually compelling commercials that connect emotionally while promoting your product, service, or brand. Each piece is rooted in a strong narrative approach—designed to resonate with your audience and drive action across TV, digital, and social platforms."
+    },
+    {
+      title: "Documentary",
+      subtitle: "Real stories, authentically told.",
+      description: "We specialize in documentary films that explore meaningful subjects with depth and empathy. From development to post-production, we focus on human-centered storytelling that reveals truth, builds connection, and leaves a lasting impression."
+    },
+    {
+      title: "Corporate Videos",
+      subtitle: "Professional content tailored to your business.",
+      description: "Our corporate videos go beyond delivering information—they communicate your company's values and vision through story-led content. Whether it's internal communication, recruitment, or brand storytelling, we humanize your message with clarity and care."
+    },
+    {
+      title: "Narrative",
+      subtitle: "Cinematic storytelling with impact.",
+      description: "This is where our passion for story takes the lead. We develop and produce scripted content—short films, branded fiction, and more—that reflect your creative vision with depth, character, and a strong cinematic voice."
+    },
+    {
+      title: "Event Coverage",
+      subtitle: "Every angle of your event, professionally captured.",
+      description: "We provide professional multi-camera coverage of your events, capturing not just what happened, but the feeling of being there. From highlight reels to full-length edits, we aim to tell the story of your event with precision and flair."
+    },
+    {
+      title: "Social Media Content",
+      subtitle: "Snackable content made to go viral.",
+      description: "We create engaging, platform-optimized videos for Instagram, TikTok, YouTube, and beyond. Every piece is crafted with storytelling in mind—fast, fun, and purposeful content that fits your audience and your brand's voice."
+    }
+  ];
 
   return (
-    <ServicesContainer>
-      <Title>SERVICES</Title>
+    <>
+      <ServicesContainer>
+        <Title>SERVICES</Title>
 
-      {servicesData.map((section, index) => (
-        <ServiceSection key={index}>
-          <ServiceTitle onClick={() => toggleSection(index)}>
-            <div className="title-content">
-              {section.title}
-            </div>
-            <span className={`arrow ${openSection === index ? 'open' : ''}`}>▼</span>
-          </ServiceTitle>
-          <AnimatePresence>
-            {openSection === index && (
-              <SubServiceList
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >
-                {section.items.map((item, itemIndex) => (
-                  <SubServiceItem key={itemIndex}>{item}</SubServiceItem>
-                ))}
-              </SubServiceList>
-            )}
-          </AnimatePresence>
-        </ServiceSection>
-      ))}
-    </ServicesContainer>
+        {servicesData.map((service, index) => (
+          <ServiceSection key={index}>
+            <ServiceHeader>
+              <ServiceTitle>
+                {service.title} <span>: {service.subtitle}</span>
+              </ServiceTitle>
+            </ServiceHeader>
+            <ServiceDescription>
+              {service.description}
+            </ServiceDescription>
+          </ServiceSection>
+        ))}
+      </ServicesContainer>
+      <Footer />
+    </>
   );
 } 

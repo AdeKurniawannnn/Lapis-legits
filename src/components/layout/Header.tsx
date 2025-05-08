@@ -182,6 +182,26 @@ const MobileNavItem = styled(motion.li)`
   }
 `;
 
+const CloseButton = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--color-accent);
+  }
+`;
+
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -313,6 +333,15 @@ export default function Header() {
             exit="closed"
             variants={menuVariants}
           >
+            <CloseButton 
+              onClick={closeMenu}
+              aria-label="Close menu"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </CloseButton>
             <MobileNavList>
               <MobileNavItem variants={itemVariants}>
                 <Link href="/contact" onClick={(e) => { handleNavigation(e, '/contact'); closeMenu(); }}>

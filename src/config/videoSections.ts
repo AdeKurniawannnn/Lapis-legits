@@ -5,7 +5,7 @@ export const videoSections: VideoSection[] = [
   {
     id: 'intro',
     title: 'Welcome To Lapis Visuals',
-    subtitle: 'Creating beautiful digital experiences',
+    subtitle: 'Layered Stories. Crafted Visuals',
     videoSrc: { src: '/videos/Lapis_Visual.mp4', type: 'video/mp4' },
     textPosition: VIDEO_POSITIONS.CENTER,
     textColor: 'white',
