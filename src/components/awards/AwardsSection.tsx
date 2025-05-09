@@ -309,9 +309,10 @@ const AwardsSection: React.FC = () => {
                           src={card.image} 
                           alt="Award"
                           fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
                           style={{ objectFit: 'contain' }}
                           loading="lazy"
+                          quality={65}
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src = '/images/placeholder.jpg';

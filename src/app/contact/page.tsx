@@ -106,26 +106,26 @@ export default function ContactPage() {
       <Header />
       <Container>
         <Title initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          Hubungi Kami
+          Work With Us
         </Title>
         <Description initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.7 }}>
-          Ada pertanyaan, ide proyek, atau ingin bekerja sama? Silakan isi form di bawah ini atau hubungi kami langsung. Kami akan membalas secepat mungkin!
+          Have a project in mind, a creative idea, or looking to collaborate? Fill out the form below or contact us directly. We'll get back to you as soon as possible!
         </Description>
         <Form
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          onSubmit={e => { e.preventDefault(); alert('Terima kasih! Pesan Anda telah dikirim.'); }}
+          onSubmit={e => { e.preventDefault(); alert('Thank you! Your message has been sent.'); }}
         >
-          <Input type="text" name="name" placeholder="Nama Anda" required />
+          <Input type="text" name="name" placeholder="Your Name" required />
           <Input type="email" name="email" placeholder="Email" required />
-          <Textarea name="message" placeholder="Pesan Anda" required />
-          <Button type="submit" whileTap={{ scale: 0.97 }}>Kirim Pesan</Button>
+          <Textarea name="message" placeholder="Your Message" required />
+          <Button type="submit" whileTap={{ scale: 0.97 }}>Send Message</Button>
         </Form>
         <InfoBox initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }}>
           <div><b>Email:</b> info@lapisvisuals.com</div>
-          <div><b>Telepon:</b> +62 812-3456-7890</div>
-          <div><b>Alamat:</b> Jl. Contoh No. 123, Jakarta</div>
+          <div><b>Phone:</b> +62 812-3456-7890</div>
+          <div><b>Address:</b> Jl. Contoh No. 123, Jakarta</div>
         </InfoBox>
       </Container>
       <Footer />
