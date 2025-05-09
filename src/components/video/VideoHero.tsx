@@ -23,14 +23,24 @@ interface VideoHeroProps {
   onScrollClick?: () => void;
   
   /**
-   * Optional array of video sources for different formats
+   * Optional array of video sources for different formats (desktop)
    */
   videoSources?: VideoSource[];
+  
+  /**
+   * Optional array of video sources for mobile devices
+   */
+  mobileVideoSources?: VideoSource[];
   
   /**
    * Optional URL for poster/thumbnail image
    */
   posterUrl?: string;
+  
+  /**
+   * Optional URL for mobile poster/thumbnail image
+   */
+  mobilePosterUrl?: string;
 }
 
 const HeroContainer = styled.section`
@@ -211,10 +221,13 @@ export default function VideoHero({
     { src: '/videos/hero-video.mp4', type: 'video/mp4' },
     { src: '/videos/hero-video.webm', type: 'video/webm' }
   ],
-  posterUrl = '/images/hero-poster.jpg'
+  mobileVideoSources,
+  posterUrl = '/images/hero-poster.jpg',
+  mobilePosterUrl
 }: VideoHeroProps) {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
   
   // For parallax effect on scroll
   const { scrollYProgress } = useScroll({
@@ -224,6 +237,21 @@ export default function VideoHero({
   
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const translateY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  
+  // Deteksi perangkat mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Cek ukuran layar saat pertama kali dan ketika resize
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
   
   // Handle device orientation changes for mobile
   useEffect(() => {
@@ -256,12 +284,16 @@ export default function VideoHero({
     }
   };
   
+  // Pilih video sources dan poster berdasarkan ukuran layar
+  const activeSources = isMobile && mobileVideoSources ? mobileVideoSources : videoSources;
+  const activePoster = isMobile && mobilePosterUrl ? mobilePosterUrl : posterUrl;
+  
   return (
     <HeroContainer ref={containerRef}>
       <VideoWrapper style={{ translateY: translateY }}>
         <ScrollVideoPlayer
-          sources={videoSources}
-          poster={posterUrl}
+          sources={activeSources}
+          poster={activePoster}
           loop={true}
           initiallyMuted={true}
           aspectRatio="16 / 9"

@@ -88,39 +88,8 @@ const Card = styled.div`
 const CardImage = styled.div`
   width: 100%;
   height: 240px;
-  background-color: #333;
   position: relative;
   overflow: hidden;
-`;
-
-const CardContent = styled.div`
-  padding: var(--spacing-md);
-`;
-
-const CardTitle = styled.h3`
-  font-size: var(--font-size-medium);
-  margin-bottom: var(--spacing-sm);
-`;
-
-const CardDescription = styled.p`
-  font-size: var(--font-size-small);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
-`;
-
-const CardButton = styled.a`
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: var(--color-primary);
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: var(--font-size-small);
-  transition: background-color 0.3s ease;
-  
-  &:hover {
-    background-color: var(--color-primary-dark);
-  }
 `;
 
 const CarouselWrapper = styled.div`
@@ -185,143 +154,83 @@ const NextButton = styled(CarouselButton)`
 const getAwardData = () => [
   {
     id: 1,
-    title: "Paris Film Festival",
-    description: "Official Selection 2022 di Paris International Film Festival untuk dokumenter terbaik.",
     image: "/images/portfolio/Paris Official Selection Laurel 2022 (W).png",
-    link: "/awards/paris-film-festival"
   },
   {
     id: 2,
-    title: "Jakarta Film Awards",
-    description: "Pemenang kategori Best Cinematography di Jakarta Film Awards 2023.",
     image: "/images/portfolio/LA OFFICIAL SELECTION (W) (1).png",
-    link: "/awards/jakarta-film-awards"
   },
   {
     id: 3,
-    title: "Piala Maya",
-    description: "Nominasi untuk Film Dokumenter Terbaik di Piala Maya 2022.",
     image: "/images/portfolio/Berlin Online Selection Laurel 2022 (W) .png",
-    link: "/awards/piala-maya"
   },
   {
     id: 4,
-    title: "Festival Film Bandung",
-    description: "Penghargaan Khusus Juri untuk inovasi visual storytelling.",
     image: "/images/portfolio/LA Official Selection (W).png",
-    link: "/awards/ffb"
   },
   {
     id: 5,
-    title: "Citra Awards",
-    description: "Nominasi untuk kategori Sutradara Terbaik dalam Film Pendek.",
     image: "/images/portfolio/New York Laurels 2024 (W) (1).png",
-    link: "/awards/citra"
   },
   {
     id: 6,
-    title: "Rome Indie Film Festival",
-    description: "Official Selection di Rome Indie Film Festival 2023.",
     image: "/images/portfolio/ROME_INDIE_1.PNG",
-    link: "/awards/rome-indie"
   },
   {
     id: 7,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/OFFICIAL-SELECTION-Aasha-international-film-festival-2023.PNG",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 8,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/BEST SHORT FILM DIRECTOR - Asian Film Festival Los Angeles Hollywood - 2023 (1).png",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 9,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/OFFICIAL-SELECTION-South-Italy-International-Film-Festival-2023.PNG",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 10,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/page-5-1.PNG",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 11,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/output-onlinepngtools (4).png",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 12,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/winner2.PNG",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 13,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/output-onlinepngtools.png",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 14,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/output-onlinepngtools (3).png",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 15,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/output-onlinepngtools (2).png",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 16,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/output-onlinepngtools (1).png",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 17,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/ISA_HM_Jul23_-_Golden.png",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 18,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/official_selection.png",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 19,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/OFFICIALSELECTION-UnitedKingdomMusicVideoFestival-2023-1-1-scaled.PNG",
-    link: "/awards/asian-film-festival"
   },
   {
     id: 20,
-    title: "Asian Film Festival",
-    description: "Special Mention untuk kontribusi dalam sinema Asia Tenggara.",
     image: "/images/portfolio/1.png",
-    link: "/awards/asian-film-festival"
   }
 ];
 const AwardsSection: React.FC = () => {
@@ -356,6 +265,21 @@ const AwardsSection: React.FC = () => {
   const handleNextSlide = () => {
     setCurrentSlide(prev => (prev < totalSlides - 1 ? prev + 1 : prev));
   };
+
+  // Auto-scroll setiap 5 detik
+  useEffect(() => {
+    if (totalSlides <= 1) return;
+    
+    const interval = setInterval(() => {
+      setCurrentSlide(prevSlide => {
+        // Kembali ke slide pertama jika sudah mencapai slide terakhir
+        return prevSlide >= totalSlides - 1 ? 0 : prevSlide + 1;
+      });
+    }, 5000);
+    
+    // Clean up interval saat komponen unmount
+    return () => clearInterval(interval);
+  }, [totalSlides]);
   
   // Jika data belum ada, tampilkan skeleton loader
   if (!cards.length) {
@@ -383,10 +307,10 @@ const AwardsSection: React.FC = () => {
                       <CardImage>
                         <Image 
                           src={card.image} 
-                          alt={card.title}
+                          alt="Award"
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          style={{ objectFit: 'cover' }}
+                          style={{ objectFit: 'contain' }}
                           loading="lazy"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
@@ -394,11 +318,6 @@ const AwardsSection: React.FC = () => {
                           }}
                         />
                       </CardImage>
-                      <CardContent>
-                        <CardTitle>{card.title}</CardTitle>
-                        <CardDescription>{card.description}</CardDescription>
-                        <CardButton href={card.link}>Selengkapnya</CardButton>
-                      </CardContent>
                     </Card>
                   </CarouselCardWrapper>
                 ))}

@@ -20,6 +20,7 @@ export interface VideoSection {
   title: string;
   subtitle?: string;
   videoSrc: { src: string; type: string };
+  mobileSrc?: { src: string; type: string };
   poster?: string;
   textPosition?: 'left' | 'right' | 'center';
   textColor?: string;
@@ -249,6 +250,7 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false); // Start paused
   const [showText, setShowText] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
   const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
   const hasPlayedOnceRef = useRef<Record<string, boolean>>({}); // Track if section played since last view
@@ -260,6 +262,28 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
 
   const currentSection = sections[activeIndex];
 
+  // Deteksi perangkat mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+  
+  // Pilih video source yang sesuai (mobile atau desktop)
+  const getVideoSource = (section: VideoSection) => {
+    if (isMobile && section.mobileSrc) {
+      return section.mobileSrc;
+    }
+    return section.videoSrc;
+  };
+
   // Effect 1: Preload videos
   useEffect(() => {
     const videosToPreload: Array<{
@@ -267,18 +291,22 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
       options?: { priority?: number };
     }> = [];
 
-    if (currentSection?.videoSrc) {
+    if (currentSection) {
+      // Pilih video yang sesuai berdasarkan ukuran layar
+      const videoToLoad = getVideoSource(currentSection);
       videosToPreload.push({
-        sources: [currentSection.videoSrc],
+        sources: [videoToLoad],
         options: { priority: 5 },
       });
     }
 
     if (preloadNext && activeIndex < sections.length - 1) {
       const nextSection = sections[activeIndex + 1];
-      if (nextSection?.videoSrc) {
+      if (nextSection) {
+        // Pilih video yang sesuai berdasarkan ukuran layar
+        const nextVideoToLoad = getVideoSource(nextSection);
         videosToPreload.push({
-          sources: [nextSection.videoSrc],
+          sources: [nextVideoToLoad],
           options: { priority: 3 },
         });
       }
@@ -292,7 +320,7 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
         console.error('Error preloading videos:', error);
       }
     }
-  }, [activeIndex, currentSection, preloadNext, sections]);
+  }, [activeIndex, currentSection, preloadNext, sections, isMobile]);
 
   // Effect 2: Handle Autoplay based on isInView and delay
   useEffect(() => {
@@ -628,7 +656,7 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
 
             <VideoBackground
               ref={el => { if (currentSection.id && el) videoRefs.current[currentSection.id] = el; }}
-              src={currentSection.videoSrc.src}
+              src={getVideoSource(currentSection).src}
               poster={currentSection.poster}
               // Muted attribute is now controlled by the effect
               playsInline
@@ -636,7 +664,7 @@ const SnapScrollVideoSection: React.FC<SnapScrollVideoSectionProps> = ({
               // Remove onLoadedData if not used, or wire handleVideoLoaded back in
               // onLoadedData={() => handleVideoLoaded(currentSection.id)}
             >
-              <source src={currentSection.videoSrc.src} type={currentSection.videoSrc.type} />
+              <source src={getVideoSource(currentSection).src} type={getVideoSource(currentSection).type} />
             </VideoBackground>
 
             {/* Video controls */}
