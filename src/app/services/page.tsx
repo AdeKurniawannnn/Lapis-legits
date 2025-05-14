@@ -41,31 +41,36 @@ const Title = styled.h1`
 `;
 
 const ServiceSection = styled.div`
-  margin-bottom: 2.5rem;
+  margin-bottom: 6rem;
   max-width: 900px;
-`;
-
-const ServiceHeader = styled.div`
-  margin-bottom: 1rem;
+  margin: 0 auto 6rem;
 `;
 
 const ServiceTitle = styled.h2`
+  font-size: 2.8rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  margin-bottom: 1rem;
+  text-align: center;
+`;
+
+const ServiceSubtitle = styled.h3`
   font-size: 1.5rem;
   font-weight: 400;
   color: #CCCCCC;
-  margin-bottom: 0.5rem;
-  
-  span {
-    opacity: 0.8;
-  }
+  font-style: italic;
+  margin-bottom: 2rem;
+  text-align: center;
 `;
 
 const ServiceDescription = styled.p`
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.1rem;
+  line-height: 1.8;
   color: #999999;
   max-width: 900px;
-  margin: 0;
+  margin: 0 auto;
+  text-align: left;
+  padding: 0 1rem;
 `;
 
 const DownloadIcon = styled.div`
@@ -137,11 +142,12 @@ export default function Services() {
 
         {servicesData.map((service, index) => (
           <ServiceSection key={index}>
-            <ServiceHeader>
-              <ServiceTitle>
-                {service.title} <span>: {service.subtitle}</span>
-              </ServiceTitle>
-            </ServiceHeader>
+            <ServiceTitle>
+              {service.title}
+            </ServiceTitle>
+            <ServiceSubtitle>
+              {service.subtitle}
+            </ServiceSubtitle>
             <ServiceDescription>
               {service.description}
             </ServiceDescription>

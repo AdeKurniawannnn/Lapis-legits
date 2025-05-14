@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Download } from 'lucide-react';
+import { useModal } from '../../context/ModalContext';
 
 const HeaderContainer = styled.header<{ $scrolled: boolean }>`
   position: fixed;
@@ -205,6 +206,7 @@ const CloseButton = styled.button`
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { open, modalType, close } = useModal();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -233,11 +235,16 @@ export default function Header() {
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
-
+  
   const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     e.stopPropagation();
     window.location.href = href;
+  };
+  
+  const handleModalOpen = (modalType: 'about' | 'work') => {
+    closeMenu(); // Close menu first
+    open(modalType); // Then open modal
   };
   
   const menuVariants = {
@@ -352,6 +359,36 @@ export default function Header() {
                 <Link href="/services" onClick={(e) => { handleNavigation(e, '/services'); closeMenu(); }}>
                   Services
                 </Link>
+              </MobileNavItem>
+              <MobileNavItem variants={itemVariants}>
+                <a href="#" onClick={(e) => { 
+                  e.preventDefault(); 
+                  closeMenu();
+                  
+                  // Instead of opening our modal, set a location hash that can be used by Sidebar
+                  window.location.hash = "about";
+                  
+                  // Dispatch a custom event that Sidebar can listen for
+                  const event = new CustomEvent('openSidebarModal', { detail: { type: 'about' } });
+                  document.dispatchEvent(event);
+                }}>
+                  About Us
+                </a>
+              </MobileNavItem>
+              <MobileNavItem variants={itemVariants}>
+                <a href="#" onClick={(e) => { 
+                  e.preventDefault(); 
+                  closeMenu();
+                  
+                  // Instead of opening our modal, set a location hash that can be used by Sidebar
+                  window.location.hash = "work";
+                  
+                  // Dispatch a custom event that Sidebar can listen for
+                  const event = new CustomEvent('openSidebarModal', { detail: { type: 'work' } });
+                  document.dispatchEvent(event);
+                }}>
+                  Our Works
+                </a>
               </MobileNavItem>
             </MobileNavList>
           </MobileMenu>

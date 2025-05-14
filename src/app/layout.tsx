@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import StyledComponentsRegistry from '@/lib/registry';
 import '@/styles/globals.css';
+import LoadingScreen from '@/components/LoadingScreen';
+import { ModalProvider } from '@/context/ModalContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <LoadingScreen />
+        <StyledComponentsRegistry>
+          <ModalProvider>
+            {children}
+          </ModalProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

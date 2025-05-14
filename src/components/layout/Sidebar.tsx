@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -209,14 +209,16 @@ const ModalText = styled(motion.div)`
       grid-template-columns: 1fr;
       
       .image-container {
-        height: 220px;
+        height: auto;
+        aspect-ratio: 16/9;
       }
       
       &.single-image {
         max-width: 100%;
         
         .image-container {
-          height: 200px;
+          height: auto;
+          aspect-ratio: 16/9;
         }
       }
     }
@@ -510,6 +512,33 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
   });
 
   const [projectDetail, setProjectDetail] = useState<ProjectDetail | null>(null);
+
+  // Listen for custom events from the Header component
+  useEffect(() => {
+    const handleOpenSidebarModal = (event: CustomEvent) => {
+      const { type } = event.detail;
+      if (type === 'about') {
+        handleModalOpen('about');
+      } else if (type === 'work') {
+        handleModalOpen('work');
+      }
+    };
+
+    // Add event listener for custom event
+    document.addEventListener('openSidebarModal', handleOpenSidebarModal as EventListener);
+    
+    // Handle direct hash navigation
+    if (window.location.hash === '#about') {
+      handleModalOpen('about');
+      // Clear the hash after handling to avoid reopening on refresh
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+    
+    // Cleanup
+    return () => {
+      document.removeEventListener('openSidebarModal', handleOpenSidebarModal as EventListener);
+    };
+  }, []);
 
   const handleProjectClick = (project: ProjectDetail) => {
     setProjectDetail(project);
@@ -809,7 +838,7 @@ export default function Sidebar({ isModalOpen, setIsModalOpen }: SidebarProps) {
                         alt={`${projectDetail.title} View ${index + 1}`}
                         fill
                         style={{
-                          objectFit: 'cover',
+                          objectFit: 'contain',
                         }}
                       />
                     </div>
