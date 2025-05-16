@@ -1,10 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Footer from '@/components/layout/Footer';
+import Sidebar from '@/components/layout/Sidebar';
 
 const ServicesContainer = styled.div`
   padding: 8rem 2rem 4rem;
@@ -102,6 +103,7 @@ const FooterSection = styled.div`
 `;
 
 export default function Services() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const servicesData = [
     {
       title: "Commercial",
@@ -137,6 +139,7 @@ export default function Services() {
 
   return (
     <>
+      <Sidebar isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <ServicesContainer>
         <Title>SERVICES</Title>
 

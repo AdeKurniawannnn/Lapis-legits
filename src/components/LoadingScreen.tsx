@@ -54,7 +54,7 @@ const LoadingScreen = () => {
         </div>
         {showSubtitle && (
           <div className={styles.bufferingContainer}>
-            <p className={styles.subtitle}>Buffering Video</p>
+            <p className={styles.subtitle}>Loading...</p>
             <div className={styles.progressBar}>
               <div 
                 className={styles.progress} 

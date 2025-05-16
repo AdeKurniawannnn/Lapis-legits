@@ -8,8 +8,8 @@ import Image from 'next/image';
 const VerticalText = styled.div<{ $right?: boolean; $center?: boolean; $offset?: number }>`
   position: fixed;
   top: ${props => props.$offset ? `${50 + props.$offset}%` : '50%'};
-  ${props => props.$right ? 'right: 40px;' : 'left: 40px;'}
-  transform-origin: ${props => props.$right ? 'right center' : 'left center'};
+  ${props => props.$right ? 'right: -25px;' : 'left: -25px;'}
+  transform-origin: center;
   transform: ${props => {
     if (props.$center) return 'translate(-50%, -50%) rotate(90deg)';
     return props.$right ? 'translateY(-50%) rotate(-90deg)' : 'translateY(-50%) rotate(90deg)';
@@ -20,42 +20,27 @@ const VerticalText = styled.div<{ $right?: boolean; $center?: boolean; $offset?:
   color: #FFFFFF;
   opacity: 1;
   z-index: 1000;
-  mix-blend-mode: difference;
   cursor: pointer;
   white-space: nowrap;
   font-weight: 500;
-  text-shadow: 0 0 5px rgb(255, 255, 255);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 1);
+  transition: transform 0.3s ease, font-size 0.3s ease;
   
   @media (max-width: 768px) {
-    font-size: 16px;
-    letter-spacing: 1.5px;
-    ${props => props.$right ? 'right: 30px;' : 'left: 30px;'}
-  }
-
-  @media (max-width: 480px) {
-    font-size: 14px;
-    letter-spacing: 1px;
-    ${props => props.$right ? 'right: 25px;' : 'left: 25px;'}
+    display: none; /* Sembunyikan di mobile */
   }
 
   &:hover {
-    opacity: 1;
-    color: #ffffff;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 5px 10px;
-    border-radius: 5px;
+    color: #FFFFFF;
+    font-size: 22px;
     font-weight: 700;
-    font-size: 20px;
-    mix-blend-mode: normal;
-    transform: ${props => {
-      if (props.$center) return 'translate(-50%, -50%) rotate(90deg) scale(1.1)';
-      return props.$right ? 
-        'translateY(-50%) rotate(-90deg) scale(1.1)' : 
-        'translateY(-50%) rotate(90deg) scale(1.1)';
-    }};
-    letter-spacing: 3px;
     text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 10px rgba(255, 255, 255, 1), 0 0 5px rgba(255, 255, 255, 1);
+    transform: ${props => {
+      if (props.$center) return 'translate(-50%, -50%) rotate(90deg) scale(1.2)';
+      return props.$right ? 
+        'translateY(-50%) rotate(-90deg) scale(1.2)' : 
+        'translateY(-50%) rotate(90deg) scale(1.2)';
+    }};
   }
 `;
 

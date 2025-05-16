@@ -313,10 +313,8 @@ const AwardsSection: React.FC = () => {
                           style={{ objectFit: 'contain' }}
                           loading="lazy"
                           quality={65}
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = '/images/placeholder.jpg';
-                          }}
+                          priority={false}
+                          unoptimized={true}
                         />
                       </CardImage>
                     </Card>

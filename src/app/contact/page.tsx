@@ -1,9 +1,10 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import Sidebar from '@/components/layout/Sidebar';
 
 const Container = styled.div`
   min-height: 80vh;
@@ -101,8 +102,11 @@ const InfoBox = styled(motion.div)`
 `;
 
 export default function ContactPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <>
+      <Sidebar isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <Header />
       <Container>
         <Title initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
@@ -123,9 +127,7 @@ export default function ContactPage() {
           <Button type="submit" whileTap={{ scale: 0.97 }}>Send Message</Button>
         </Form>
         <InfoBox initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }}>
-          <div><b>Email:</b> info@lapisvisuals.com</div>
-          <div><b>Phone:</b> +62 812-3456-7890</div>
-          <div><b>Address:</b> Jl. Contoh No. 123, Jakarta</div>
+          <div><b>Email:</b> lapisvisualsinfo@gmail.com</div>
         </InfoBox>
       </Container>
       <Footer />

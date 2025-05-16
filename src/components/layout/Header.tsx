@@ -181,6 +181,10 @@ const MobileNavItem = styled(motion.li)`
       color: var(--color-accent);
     }
   }
+  
+  a[href="/services"] {
+    color: var(--color-text-light);
+  }
 `;
 
 const CloseButton = styled.button`
