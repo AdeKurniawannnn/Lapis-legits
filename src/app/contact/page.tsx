@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Sidebar from '@/components/layout/Sidebar';
 import { supabase } from '@/lib/supabase';
+import Swal from 'sweetalert2';
 
 const Container = styled.div`
   min-height: 80vh;
@@ -137,11 +138,31 @@ export default function ContactPage() {
   
       if (error) throw error;
   
-      alert('Terima kasih! Pesan Anda telah terkirim.');
+      Swal.fire({
+        icon: 'success',
+        title: '<span style="color:#fff;">Success!</span>',
+        html: '<p style="color:#ccc; font-size: 1rem;">Thank you! Your message has been sent.</p>',
+        background: '#1a1a1a',
+        confirmButtonColor: '#8f5fff',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'dark-swal',
+        }
+      });      
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       console.error('Error:', error);
-      alert('Maaf, terjadi kesalahan. Silakan coba lagi.');
+      Swal.fire({
+        icon: 'error',
+        title: '<span style="color:#fff;">Failed!</span>',
+        html: '<p style="color:#ccc; font-size: 1rem;">Sorry, something went wrong. Please try again.</p>',
+        background: '#1a1a1a',
+        confirmButtonColor: '#8f5fff',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'dark-swal',
+        }
+      });      
     } finally {
       setIsLoading(false);
     }
