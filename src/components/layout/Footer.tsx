@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaInstagram, FaYoutube, FaLinkedinIn, FaFacebookF } from 'react-icons/fa';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
 
 const FooterContainer = styled.footer`
   background-color: #000000;
@@ -148,16 +151,16 @@ export default function Footer() {
             Email : lapisvisualsinfo@gmail.com<br />
           </ContactInfo>
           <SocialLinks>
-            <SocialLink href="https://instagram.com" target="_blank" aria-label="Instagram">
+            <SocialLink href="https://www.instagram.com/lapisvisuals?igsh=MTl3ZG0zMHZxcjRwZg==" target="_blank" aria-label="Instagram">
               <FaInstagram />
             </SocialLink>
-            <SocialLink href="https://youtube.com" target="_blank" aria-label="YouTube">
+            <SocialLink href="https://youtube.com/@lapisvisuals?si=V6pEuocjbIFRZXwy" target="_blank" aria-label="YouTube">
               <FaYoutube />
             </SocialLink>
-            <SocialLink href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+            <SocialLink href="https://www.linkedin.com/company/lapis-visuals" target="_blank" aria-label="LinkedIn">
               <FaLinkedinIn />
             </SocialLink>
-            <SocialLink href="https://facebook.com" target="_blank" aria-label="Facebook">
+            <SocialLink href="https://www.facebook.com/share/1YoZ8JGYRk/" target="_blank" aria-label="Facebook">
               <FaFacebookF />
             </SocialLink>
           </SocialLinks>

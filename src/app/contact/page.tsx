@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Sidebar from '@/components/layout/Sidebar';
+import { supabase } from '@/lib/supabase';
 
 const Container = styled.div`
   min-height: 80vh;
@@ -103,6 +104,48 @@ const InfoBox = styled(motion.div)`
 
 export default function ContactPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+  
+    try {
+      const { error } = await supabase
+        .from('Contact_Midas_Website') // pakai nama tabel persis
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            created_at: new Date().toISOString()
+          }
+        ]);
+  
+      if (error) throw error;
+  
+      alert('Terima kasih! Pesan Anda telah terkirim.');
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Maaf, terjadi kesalahan. Silakan coba lagi.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -119,12 +162,38 @@ export default function ContactPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          onSubmit={e => { e.preventDefault(); alert('Thank you! Your message has been sent.'); }}
+          onSubmit={handleSubmit}
         >
-          <Input type="text" name="name" placeholder="Your Name" required />
-          <Input type="email" name="email" placeholder="Email" required />
-          <Textarea name="message" placeholder="Your Message" required />
-          <Button type="submit" whileTap={{ scale: 0.97 }}>Send Message</Button>
+          <Input 
+            type="text" 
+            name="name" 
+            placeholder="Your Name" 
+            required 
+            value={formData.name}
+            onChange={handleChange}
+          />
+          <Input 
+            type="email" 
+            name="email" 
+            placeholder="Email" 
+            required 
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <Textarea 
+            name="message" 
+            placeholder="Your Message" 
+            required 
+            value={formData.message}
+            onChange={handleChange}
+          />
+          <Button 
+            type="submit" 
+            whileTap={{ scale: 0.97 }}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Mengirim...' : 'Send Message'}
+          </Button>
         </Form>
         <InfoBox initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.7 }}>
           <div><b>Email:</b> lapisvisualsinfo@gmail.com</div>
