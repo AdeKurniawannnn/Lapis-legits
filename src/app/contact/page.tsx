@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Sidebar from '@/components/layout/Sidebar';
-import { supabase } from '@/lib/supabase';
 import Swal from 'sweetalert2';
 
 const Container = styled.div`
@@ -125,18 +124,23 @@ export default function ContactPage() {
     setIsLoading(true);
   
     try {
-      const { error } = await supabase
-        .from('Contact_Midas_Website') // pakai nama tabel persis
-        .insert([
-          {
-            name: formData.name,
-            email: formData.email,
-            message: formData.message,
-            created_at: new Date().toISOString()
-          }
-        ]);
-  
-      if (error) throw error;
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send message');
+      }
   
       Swal.fire({
         icon: 'success',
